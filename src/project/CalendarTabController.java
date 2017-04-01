@@ -4,6 +4,7 @@ package project;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
@@ -31,6 +32,11 @@ import java.util.Date;
 
 public class CalendarTabController {
 
+    /*
+    Need to figure out how to get Cell String Values
+    Figure out how to save them in a specific Format
+    need to get Data from .csv file and add to calendar
+*/
     @FXML
     private TableColumn<Node, String> tuesColumn;
 
@@ -96,6 +102,7 @@ public class CalendarTabController {
 
 
         table.setFixedCellSize(100);
+        table.setEditable(true);
         table.getSelectionModel().setCellSelectionEnabled(true);
 
 
@@ -103,39 +110,39 @@ public class CalendarTabController {
 
         sunColumn.setCellValueFactory(new PropertyValueFactory<Node,String>("first"));
      //   sunColumn.setCellFactory(TextAreaTableCell.forTableColumn());
-        sunColumn.setCellFactory(TextFieldTableCell.forTableColumn());
-        sunColumn.setOnEditCommit(
-                new EventHandler<CellEditEvent<Node, String>>() {
+        sunColumn.setCellFactory(TextAreaTableCell.forTableColumn());
+       /* sunColumn.setOnEditCommit(
+                new EventHandler<TableColumn.CellEditEvent<Node, String>>() {
                     @Override
-                    public void handle(CellEditEvent<Node, String> t) {
+                    public void handle(TableColumn.CellEditEvent<Node, String> t) {
                         ((Node) t.getTableView().getItems().get(
                                 t.getTablePosition().getRow())
-                        ).setFirstName(t.getNewValue());
+                        ).setFirst(t.getNewValue());
                     }
                 }
-        );
+        );*/
 
 
 
 
         monColumn.setCellValueFactory(new PropertyValueFactory< Node, String>("second"));
-     //   monColumn.setCellFactory(TextAreaTableCell.forTableColumn());
+        monColumn.setCellFactory(TextAreaTableCell.forTableColumn());
 
 
         tuesColumn.setCellValueFactory(new PropertyValueFactory<Node,String>("third"));
-     //   tuesColumn.setCellFactory(TextAreaTableCell.forTableColumn());
+        tuesColumn.setCellFactory(TextAreaTableCell.forTableColumn());
 
         wedColumn.setCellValueFactory(new PropertyValueFactory<Node,String>("fourth"));
-    //    wedColumn.setCellFactory(TextAreaTableCell.forTableColumn());
+        wedColumn.setCellFactory(TextAreaTableCell.forTableColumn());
 
         thursColumn.setCellValueFactory(new PropertyValueFactory<Node,String>("fifth"));
-    //    thursColumn.setCellFactory(TextAreaTableCell.forTableColumn());
+        thursColumn.setCellFactory(TextAreaTableCell.forTableColumn());
 
         friColumn.setCellValueFactory(new PropertyValueFactory<Node,String>("sixth"));
-     //   friColumn.setCellFactory(TextAreaTableCell.forTableColumn());
+        friColumn.setCellFactory(TextAreaTableCell.forTableColumn());
 
         satColumn.setCellValueFactory(new PropertyValueFactory<Node,String>("seventh"));
-    //    satColumn.setCellFactory(TextAreaTableCell.forTableColumn());
+        satColumn.setCellFactory(TextAreaTableCell.forTableColumn());
 
         table.setItems(node);
 
@@ -463,6 +470,35 @@ public class CalendarTabController {
     //Saves the date from the calendar to a file
     @FXML
     void saveMonth(ActionEvent event) {
+        int counter = 0;
+        TableColumn<Node, String> finalSunColumn = sunColumn;
+        TableColumn<Node, String> finalMonColumn = monColumn;
+        TableColumn<Node, String> finalTuesColumn = tuesColumn;
+        TableColumn<Node, String> finalWedColumn = wedColumn;
+        TableColumn<Node, String> finalThursColumn = thursColumn;
+        TableColumn<Node, String> finalFriColumn = friColumn;
+        TableColumn<Node, String> finalSatColumn = satColumn;
+        ;
+
+        String[] sunTemp = new String[table.getItems().size()];
+        String[] monTemp = new String[table.getItems().size()];
+        String[] tuesTemp = new String[table.getItems().size()];
+        String[] wedTemp =new String[table.getItems().size()];
+        String[] thursTemp =new String[table.getItems().size()];
+        String[] friTemp =new String[table.getItems().size()];
+        String[] satTemp =new String[table.getItems().size()];
+        for(Node item : table.getItems()){
+            sunTemp[counter] = finalSunColumn.getCellObservableValue(item).getValue();
+            monTemp[counter] = finalMonColumn.getCellObservableValue(item).getValue();
+            tuesTemp[counter] = finalTuesColumn.getCellObservableValue(item).getValue();
+            wedTemp[counter] = finalWedColumn.getCellObservableValue(item).getValue();
+            thursTemp[counter] = finalThursColumn.getCellObservableValue(item).getValue();
+            friTemp[counter] = finalFriColumn.getCellObservableValue(item).getValue();
+            satTemp[counter] = finalSatColumn.getCellObservableValue(item).getValue();
+            System.out.println(sunTemp[counter]+" "+monTemp[counter]+" "+tuesTemp[counter]+" "+
+                    wedTemp[counter]+" "+thursTemp[counter]+" "+friTemp[counter]+" "+satTemp[counter]);
+            counter++;
+        }
 
     }
     @FXML
